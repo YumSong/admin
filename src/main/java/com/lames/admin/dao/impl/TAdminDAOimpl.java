@@ -33,7 +33,7 @@ public class TAdminDAOimpl implements ITAdminDAO {
 				admin.setLoginName(rs.getString(2));				
 				return admin;
 			}
-			conn.close();			
+				
 		} catch (Exception e) {
 			try {
 				conn.rollback();
