@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <%@ page isELIgnored="false"%>
+<%@ page  import="com.lames.admin.config.*" %>
+<%
+String path = request.getContextPath(); 
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
+String imgServer = WebServiceConfig.getConfig().get("image.server");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,11 +35,11 @@
 					<td>${m.merchantID}</td>
 					<td>${m.merchantName}</td>
 					<td>${m.idcardNum}</td>
-					<td><img src="${m.idcardPic}" width="160" height="90"></img></td>
+					<td><img src="<%=imgServer%>${m.idcardPic}" width="160" height="90"></img></td>
 					<td>${m.address}</td>
-					<td><img src="${m.businessPic}" width="160" height="90"></img></td>
-					<td><img src="${m.shopPic[0]}" width="160" height="90"></img></td>
-					<td><img src="${m.shopPic[1]}" width="160" height="90"></img></td>
+					<td><img src="<%=imgServer%>${m.businessPic}" width="160" height="90"></img></td>
+					<td><img src="<%=imgServer%>${m.shopPic[0]}" width="160" height="90"></img></td>
+					<td><img src="<%=imgServer%>${m.shopPic[1]}" width="160" height="90"></img></td>
 					<td>${m.introduction}</td>
 					<td><c:if test="${m.status==0}">待处理</c:if>
 					<c:if test="${m.status==1}">审核通过</c:if>
