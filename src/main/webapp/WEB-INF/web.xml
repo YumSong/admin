@@ -10,7 +10,7 @@
   </filter>
   <filter-mapping>
   	<filter-name>ExceptionFilter</filter-name>
-  	<url-pattern>/*</url-pattern>
+  	<url-pattern>/MerchantDetail/*</url-pattern>
   </filter-mapping>
   <servlet>
   	<servlet-name>ListToUpdate</servlet-name>
@@ -86,6 +86,6 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>TAdminLogin</servlet-name>
-  	<url-pattern>/MerchantDetail/Login.do</url-pattern><!-- 登陆不能过滤 -->
+  	<url-pattern>/Login.do</url-pattern><!-- 登陆不能过滤 -->
   </servlet-mapping>
 </web-app>

@@ -46,7 +46,7 @@ public class TAdminLogin extends HttpServlet {
 		err1.addAll(lpv.validate(loginPassword));
 		if (err1.size() > 0) {
 			request.setAttribute("errMsg", err1);
-			request.getRequestDispatcher("/Login.jsp").forward(request, response);
+			request.getRequestDispatcher("Login.jsp").forward(request, response);
 		} else {
 			TAdmin admin = tadminService.login(loginName, loginPassword);
 			if(admin != null) {
@@ -57,7 +57,7 @@ public class TAdminLogin extends HttpServlet {
 			}else {
 				err1.add("Account or password is invalid");
 				request.setAttribute("errMsg", err1);
-				response.sendRedirect("/admin/MerchantDetail/Login.jsp");
+				request.getRequestDispatcher("Login.jsp").forward(request, response);
 			}
 		}
 	}

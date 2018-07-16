@@ -47,21 +47,16 @@ public class ExceptionFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
 		System.out.println("ServletPath :" + req.getServletPath());
-		if (req.getServletPath().contains("/MerchantDetail/")&&!req.getServletPath().contains("Login")) {
-			
-			TAdmin admin = (TAdmin) session.getAttribute("admin");
-			if (admin == null) {
-				List<String> errMsg = new ArrayList<String>();
-				errMsg.add("Please Login first!");
-				req.setAttribute("errMsg", errMsg);
-				System.out.println("admin: null");
 
-			} else {
-				
-				System.out.println("admin:" + admin.getLoginName());
-			}
+		TAdmin admin = (TAdmin) session.getAttribute("admin");
+		System.out.println(admin);
+		if (admin == null) {
+			resp.sendRedirect("/admin/Login.jsp");
+		} else {
+			System.out.println("admin:" + admin.getLoginName());
+			chain.doFilter(request, response);
 		}
-		chain.doFilter(request, response);
+
 	}
 
 	/**
