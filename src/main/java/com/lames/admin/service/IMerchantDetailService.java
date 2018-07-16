@@ -13,4 +13,5 @@ public interface IMerchantDetailService {
 	public String findMerchantDetailByMerchantID(Integer merchantDetailID);
 	public int updateMerchantDetailStatus(Integer merchantDetailID, Integer Status);
 	public int verifyMerchantDetailStatus(Integer merchantDetailID,Integer Status);
+	public MerchantDetail insert(MerchantDetail merchantDetail);
 }

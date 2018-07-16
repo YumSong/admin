@@ -17,11 +17,18 @@
 
 		<!--解决request.getServletContext().getRealPath，context报红的问题 -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
-		</dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>3.0.1</version>
+        <scope>provided</scope>
+	    </dependency>
+	    <!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
+	    <dependency>
+	        <groupId>javax.servlet.jsp</groupId>
+	        <artifactId>javax.servlet.jsp-api</artifactId>
+	        <version>2.2.1</version>
+	        <scope>provided</scope>
+	    </dependency>
 		<!--数据库连接池 -->
 		<!-- https://mvnrepository.com/artifact/com.jslsolucoes/ojdbc6 -->
 		<dependency>
@@ -52,6 +59,11 @@
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.apache.activemq</groupId>
+		    <artifactId>activemq-all</artifactId>
+		    <version>5.15.4</version>
+		</dependency> 
 	</dependencies>
 	<build>
 		<finalName>admin</finalName>

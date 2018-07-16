@@ -1,67 +1,46 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
-
-<web-app>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
   	<servlet-name>ListToUpdate</servlet-name>
-  	<display-name>ListToUpdate</display-name>
-  	<description></description>
   	<servlet-class>com.lames.admin.servlet.merchantdetail.ListToUpdate</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>UpdateStatus</servlet-name>
-  	<display-name>UpdateStatus</display-name>
-  	<description></description>
   	<servlet-class>com.lames.admin.servlet.merchantdetail.UpdateStatus</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>ListVerify</servlet-name>
-  	<display-name>ListVerify</display-name>
-  	<description></description>
   	<servlet-class>com.lames.admin.servlet.merchantdetail.ListVerify</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>VerifyStatus</servlet-name>
-  	<display-name>VerifyStatus</display-name>
-  	<description></description>
   	<servlet-class>com.lames.admin.servlet.merchantdetail.VerifyStatus</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>GetPassedShopID</servlet-name>
-  	<display-name>GetPassedShopID</display-name>
-  	<description></description>
   	<servlet-class>com.lames.admin.servlet.merchantdetail.GetPassedShopID</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>FindMerchantDetail</servlet-name>
-  	<display-name>FindMerchantDetail</display-name>
-  	<description></description>
   	<servlet-class>com.lames.admin.servlet.merchantdetail.FindMerchantDetail</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>MerchantLogin</servlet-name>
-  	<display-name>MerchantLogin</display-name>
-  	<description></description>
   	<servlet-class>com.lames.admin.servlet.merchant.MerchantLogin</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>MerchantRegister</servlet-name>
-  	<display-name>MerchantRegister</display-name>
-  	<description></description>
   	<servlet-class>com.lames.admin.servlet.merchant.MerchantRegister</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>TAdminServiceimpl</servlet-name>
-  	<display-name>TAdminServiceimpl</display-name>
-  	<description></description>
   	<servlet-class>com.lames.admin.service.impl.TAdminServiceimpl</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>TAdminLogin</servlet-name>
-  	<display-name>TAdminLogin</display-name>
-  	<description></description>
   	<servlet-class>com.lames.admin.servlet.tadmin.TAdminLogin</servlet-class>
   </servlet>
   <servlet-mapping>

@@ -77,10 +77,23 @@ public class MerchantDetailServiceimpl implements IMerchantDetailService {
 			String jsonStr = mapper.writeValueAsString(jsonResult);
 			return jsonStr;
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public MerchantDetail insert(MerchantDetail merchantDetail) {
+		System.out.println("detail:"+merchantDetail);
+		MerchantDetail detail = merchantDetailDAO.findByMerchantID(merchantDetail.getMerchantID());
+		System.out.println("detail2:"+detail);
+		if(detail != null) {
+			if(detail.getStatus() == 2) {
+				merchantDetailDAO.updateByID(merchantDetail);
+			}
+		}else {
+			merchantDetailDAO.insert(merchantDetail);
+		}
+		return merchantDetail;
 	}
 
 }
