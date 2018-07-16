@@ -285,7 +285,7 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 		PreparedStatement ps = null;
 		try {
 			String sql = "UPDATE MERCHANTDETAIL SET IDCARD_NUM = ?,IDCARD_PIC=?,"
-					+ "MERCHANT_NAME=?,STATUS=0,SHOP_PIC=?,BUSINESS_PIC=?,ADDRESS=?,INTRODUCTION WHERE MERCHANTDETAIL_ID=?";
+					+ "MERCHANT_NAME=?,STATUS=0,SHOP_PIC=?,BUSINESS_PIC=?,ADDRESS=?,INTRODUCTION=? WHERE MERCHANTDETAIL_ID=?";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, detail.getIdcardNum());
 			ps.setString(2, detail.getIdcardPic());
@@ -300,7 +300,8 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 			}
 			ps.setString(5, detail.getBusinessPic());
 			ps.setString(6, detail.getAddress());
-			ps.setInt(7, detail.getMerchantID());
+			ps.setString(7, detail.getIntroduction());
+			ps.setInt(8, detail.getMerchantDetailID());
 			return ps.executeUpdate();
 		} catch (Exception e) {
 			try {

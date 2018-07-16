@@ -83,11 +83,12 @@ public class MerchantDetailServiceimpl implements IMerchantDetailService {
 	}
 
 	public MerchantDetail insert(MerchantDetail merchantDetail) {
-		
+		System.out.println("detail:"+merchantDetail);
 		MerchantDetail detail = merchantDetailDAO.findByMerchantID(merchantDetail.getMerchantID());
+		System.out.println("detail2:"+detail);
 		if(detail != null) {
 			if(detail.getStatus() == 2) {
-				merchantDetailDAO.updateByID(detail);
+				merchantDetailDAO.updateByID(merchantDetail);
 			}
 		}else {
 			merchantDetailDAO.insert(merchantDetail);
