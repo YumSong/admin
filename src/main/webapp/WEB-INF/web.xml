@@ -3,6 +3,17 @@
                       http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
   <display-name>Archetype Created Web Application</display-name>
+
+  <filter>
+  	<filter-name>ExceptionFilter</filter-name>
+  	<display-name>ExceptionFilter</display-name>
+  	<description></description>
+  	<filter-class>com.lames.admin.filter.ExceptionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>ExceptionFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
   <servlet>
   	<servlet-name>ListToUpdate</servlet-name>
   	<servlet-class>com.lames.admin.servlet.merchantdetail.ListToUpdate</servlet-class>
@@ -61,22 +72,22 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>GetPassedShopID</servlet-name>
-  	<url-pattern>/MerchantDetail/GetPassedShopID.do</url-pattern>
+  	<url-pattern>/GetPassedShopID.do</url-pattern><!-- C段获取商店ID列表不能过滤 -->
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>FindMerchantDetail</servlet-name>
-  	<url-pattern>/merchantdetail.do</url-pattern>
+  	<url-pattern>/merchantdetail.do</url-pattern><!-- M端获取申请审核的信息不能过滤 -->
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>MerchantLogin</servlet-name>
-  	<url-pattern>/merchant/login.do</url-pattern>
+  	<url-pattern>/merchant/login.do</url-pattern><!-- 商家登陆不能过滤 -->
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>MerchantRegister</servlet-name>
-  	<url-pattern>/merchant/register.do</url-pattern>
+  	<url-pattern>/merchant/register.do</url-pattern><!-- 商家注册不能过滤 -->
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>TAdminLogin</servlet-name>
-  	<url-pattern>/Login.do</url-pattern>
+  	<url-pattern>/MerchantDetail/Login.do</url-pattern><!-- 登陆不能过滤 -->
   </servlet-mapping>
 </web-app>

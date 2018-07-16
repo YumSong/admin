@@ -47,6 +47,7 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 				}
 				m.setBusinessPic(rs.getString(9));
 				m.setAddress(rs.getString(10));
+				m.setIntroduction(rs.getString(11));
 				return m;
 			}
 		} catch (Exception e) {

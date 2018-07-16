@@ -7,7 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.lames.admin.model.TAdmin;
 import com.lames.admin.service.impl.TAdminServiceimpl;
 import com.lames.admin.validator.LoginNameValidator;
 import com.lames.admin.validator.LoginPasswordValidator;
@@ -43,9 +45,20 @@ public class TAdminLogin extends HttpServlet {
 		List<String> err1 = lnv.validate(loginName);
 		err1.addAll(lpv.validate(loginPassword));
 		if (err1.size() > 0) {
-			;
+			request.setAttribute("errMsg", err1);
+			request.getRequestDispatcher("/Login.jsp").forward(request, response);
 		} else {
-			tadminService.login(loginName, loginPassword);
+			TAdmin admin = tadminService.login(loginName, loginPassword);
+			if(admin != null) {
+				System.out.println(admin.getLoginName());
+				HttpSession session = request.getSession();
+				session.setAttribute("admin", admin);
+				response.sendRedirect("/admin/MerchantDetail/ListVerify.do");
+			}else {
+				err1.add("Account or password is invalid");
+				request.setAttribute("errMsg", err1);
+				response.sendRedirect("/admin/MerchantDetail/Login.jsp");
+			}
 		}
 	}
 

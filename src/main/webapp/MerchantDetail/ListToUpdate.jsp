@@ -42,6 +42,7 @@
 		<c:if test="${pUtil.pageNum<1}"><a href="http://localhost:9999/admin/MerchantDetail/ListToUpdate.do?pageNum=${pUtil.pageNum-1}">上一页</a></c:if>						
 		<span align="center">${pUtil.pageNum}</span>
 		<c:if test="${pUtil.total>pUtil.endNum}"><a href="http://localhost:9999/admin/MerchantDetail/ListToUpdate.do?pageNum=${pUtil.pageNum+1}">下一页</a></c:if>						
+		<span align="letf"><a href="http://10.222.29.152:9999/admin/MerchantDetail/ListVerify.do">审核信息</a></span>
 		</div>
 	</div>
 </body>
