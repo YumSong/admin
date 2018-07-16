@@ -14,4 +14,5 @@ public interface IMerchantDetailDAO {
 	public List<MerchantDetail> listToUpdateStatus(PageUtil pUtil);
 	public List<MerchantDetail> listToVerify(PageUtil pUtil);
 	public int updateStatusByID(Integer merchantDetailID,Integer Status);
+	int updateByID(MerchantDetail detail);
 }

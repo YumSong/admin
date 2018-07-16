@@ -14,11 +14,11 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 public class DBUtil {
 	private static BasicDataSource ds;
-	private static final String PATH="C:\\Users\\YEJA\\git\\admin\\src\\main\\resources\\jdbc.properties";
+	private static final String PATH="db/jdbc.properties";
 	static {
 		Properties properties = new Properties();
 		try {
-			InputStream in = new BufferedInputStream(new FileInputStream(PATH));
+			InputStream in = DBUtil.class.getClassLoader().getResourceAsStream(PATH); 
 			properties.load(in);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

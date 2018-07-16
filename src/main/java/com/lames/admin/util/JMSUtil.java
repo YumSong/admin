@@ -56,4 +56,13 @@ public class JMSUtil {
     public static Session getSession(){
         return session;
     }
+    
+    public static void close() {
+    	try {
+			connection.close();
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 }

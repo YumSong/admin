@@ -3,6 +3,8 @@ package com.lames.admin.listener;
 import com.lames.admin.dao.IMerchantDetailDAO;
 import com.lames.admin.dao.impl.MerchantDetailDAOimpl;
 import com.lames.admin.model.MerchantDetail;
+import com.lames.admin.service.IMerchantDetailService;
+import com.lames.admin.service.impl.MerchantDetailServiceimpl;
 import com.lames.admin.util.JMSUtil;
 import com.lames.admin.util.JsonUtil;
 
@@ -12,23 +14,25 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 @WebListener
-public class RecordListener implements ServletContextListener {
+public class MerchantDetailListener implements ServletContextListener {
 
-	private IMerchantDetailDAO dao = new MerchantDetailDAOimpl();
+	private IMerchantDetailService service = new MerchantDetailServiceimpl();
    
 	public void contextDestroyed(ServletContextEvent sce) {
-		
+		JMSUtil.close();
 	}
 
 	public void contextInitialized(ServletContextEvent sce) {
 		 try {
-	            System.out.println("init login record");
-	            MessageConsumer consumer = JMSUtil.getConsumer();
+			 	final Session session = JMSUtil.getSession();
+			 	Queue queue = session.createQueue("merchantDetail");
+	            MessageConsumer consumer = session.createConsumer(queue);
 	            consumer.setMessageListener(new MessageListener() {
 					public void onMessage(Message message) {
 							try {
 		                        System.out.println(((TextMessage)message).getText());
-		                        dao.insert((MerchantDetail)JsonUtil.jsonToObject(((TextMessage)message).getText(), MerchantDetail.class));
+		                        service.insert((MerchantDetail)JsonUtil.jsonToObject(((TextMessage)message).getText(), MerchantDetail.class));
+		                        session.commit();
 		                    } catch (JMSException e) {
 		                        e.printStackTrace();
 		                    }

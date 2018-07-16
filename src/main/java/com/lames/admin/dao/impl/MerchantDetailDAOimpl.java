@@ -278,6 +278,43 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 		}	
 		return 0;
 	}
+	
+	public int updateByID(MerchantDetail detail) {
+		// TODO Auto-generated method stub
+		Connection conn = DBUtil.getConnection();
+		PreparedStatement ps = null;
+		try {
+			String sql = "UPDATE MERCHANTDETAIL SET IDCARD_NUM = ?,IDCARD_PIC=?,"
+					+ "MERCHANT_NAME=?,STATUS=0,SHOP_PIC=?,BUSINESS_PIC=?,ADDRESS=?,INTRODUCTION WHERE MERCHANTDETAIL_ID=?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, detail.getIdcardNum());
+			ps.setString(2, detail.getIdcardPic());
+			ps.setString(3, detail.getMerchantName());
+			if (detail.getShopPic() == null) {
+				ps.setString(4, null);
+			} else {
+				String str ="";
+				for(int i = 0 ;i<detail.getShopPic().length;i++)
+					str =str+ detail.getShopPic()[i]+";;";
+				ps.setString(4, str);
+			}
+			ps.setString(5, detail.getBusinessPic());
+			ps.setString(6, detail.getAddress());
+			ps.setInt(7, detail.getMerchantID());
+			return ps.executeUpdate();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+				e.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			DBUtil.free(conn, ps);
+		}	
+		return 0;
+	}
 
 	public int insert(MerchantDetail m) {
 		// TODO Auto-generated method stub
@@ -293,7 +330,7 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 			ps.setString(3, m.getIdcardPic());
 			ps.setString(4, m.getMerchantName());
 			ps.setInt(5, m.getShopID());
-			ps.setInt(6, m.getStatus());
+			ps.setInt(6, 0);
 			if (m.getShopPic() == null) {
 				ps.setString(7, null);
 			} else {
