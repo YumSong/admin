@@ -6,8 +6,6 @@
 
   <filter>
   	<filter-name>ExceptionFilter</filter-name>
-  	<display-name>ExceptionFilter</display-name>
-  	<description></description>
   	<filter-class>com.lames.admin.filter.ExceptionFilter</filter-class>
   </filter>
   <filter-mapping>
