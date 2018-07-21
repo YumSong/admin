@@ -13,7 +13,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class JMSUtil {
 
-    private static ConnectionFactory factory = new ActiveMQConnectionFactory("failover://tcp://localhost:61616");
+    private static ConnectionFactory factory = new ActiveMQConnectionFactory("failover://tcp://10.222.29.153:61616");
 
     private static Connection connection;
 

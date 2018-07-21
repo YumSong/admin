@@ -1,48 +1,44 @@
-package com.lames.admin.model;
+package com.lames.admin.model.orm;
 
-public class MerchantDetailPic extends MerchantDetail {
 
+import java.util.Arrays;
+
+import com.jake.annotation.Column;
+import com.jake.annotation.Entity;
+import com.jake.annotation.ID;
+import com.jake.annotation.Sequence;
+
+@Entity("merchantDetail")
+public class MerchantDetail {
+
+    @ID
+    @Sequence("S_merchantDetail")
+    @Column("merchantDetail_id")
 	private Integer merchantDetailID;
+    @Column("merchant_id")
 	private Integer merchantID;
+    @Column("idcard_num")    
 	private Integer idcardNum;
+    @Column("idcard_pic")
 	private String idcardPic;
+    @Column("merchant_name")	
 	private String merchantName;
+    @Column("shop_id")	
 	private Integer shopID;
+    @Column("status")	
 	private Integer status;// 狀態：0-待處理、 1-審核通過（拉白）、 2-駁回 3、不同意（拉黑）
-	private String shopPic1;
-	private String shopPic2;
+
+	private String[] shopPic;
+    @Column("shop_pic")	
+	private String shopPics;
+    @Column("business_pic")	
 	private String businessPic;
+    @Column("address")	
 	private String address;
+    @Column("introduction")	
 	private String introduction;
-
-	public MerchantDetailPic() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public MerchantDetailPic(MerchantDetail m) {
-		// TODO Auto-generated constructor stub
-	
-		this.merchantDetailID = m.getMerchantDetailID();
-		this.merchantID = m.getMerchantID();
-		this.idcardNum = m.getIdcardNum();
-		this.idcardPic = m.getIdcardPic();
-		this.merchantName = m.getMerchantName();
-		this.shopID = m.getShopID();
-		this.status = m.getStatus();
-		this.businessPic = m.getBusinessPic();
-		this.address = m.getAddress();
-		this.introduction = m.getIntroduction();
-	}
-
-	private void splitPicURL(String url) {
-		String[] str = url.split(";;");
-		for (int i = 0; i < str.length; i++) {
-			if (i == 0)
-				this.shopPic1 = str[i];
-			if (i == 1)
-				this.shopPic2 = str[i];
-		}
-	}
+    @Column("last_update_time")
+	private Long lastUpdateTime;
 
 	public Integer getMerchantDetailID() {
 		return merchantDetailID;
@@ -100,20 +96,20 @@ public class MerchantDetailPic extends MerchantDetail {
 		this.status = status;
 	}
 
-	public String getShopPic1() {
-		return shopPic1;
+	public String[] getShopPic() {
+		return shopPic;
 	}
 
-	public void setShopPic1(String shopPic1) {
-		this.shopPic1 = shopPic1;
+	public void setShopPic(String[] shopPic) {
+		this.shopPic = shopPic;
 	}
 
-	public String getShopPic2() {
-		return shopPic2;
+	public String getShopPics() {
+		return shopPics;
 	}
 
-	public void setShopPic2(String shopPic2) {
-		this.shopPic2 = shopPic2;
+	public void setShopPics(String shopPics) {
+		this.shopPics = shopPics;
 	}
 
 	public String getBusinessPic() {
@@ -140,4 +136,22 @@ public class MerchantDetailPic extends MerchantDetail {
 		this.introduction = introduction;
 	}
 
+	public Long getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+
+	public void setLastUpdateTime(Long lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
+	}
+
+	@Override
+	public String toString() {
+		return "MerchantDetail [merchantDetailID=" + merchantDetailID + ", merchantID=" + merchantID + ", idcardNum="
+				+ idcardNum + ", idcardPic=" + idcardPic + ", merchantName=" + merchantName + ", shopID=" + shopID
+				+ ", status=" + status + ", shopPic=" + Arrays.toString(shopPic) + ", shopPics=" + shopPics
+				+ ", businessPic=" + businessPic + ", address=" + address + ", introduction=" + introduction
+				+ ", lastUpdateTime=" + lastUpdateTime + "]";
+	}
+
+	
 }

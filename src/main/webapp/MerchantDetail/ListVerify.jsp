@@ -47,11 +47,11 @@ String imgServer = WebServiceConfig.getConfig().get("image.server");
 					<c:if test="${m.status==3}">不同意</c:if>
 					</td>
 					<td><a
-						href="http://localhost:9999/admin/MerchantDetail/VerifyStatus.do?merchantDetailID=${m.merchantDetailID}&status=1&pageNum=${pUtil.pageNum}">同意</a>
+						href="<%=basePath%>MerchantDetail/VerifyStatus.do?merchantDetailID=${m.merchantDetailID}&lastUpdateTime=${m.lastUpdateTime}&status=1&pageNum=${pUtil.pageNum}">同意</a>
 						<a
-						href="http://localhost:9999/admin/MerchantDetail/VerifyStatus.do?merchantDetailID=${m.merchantDetailID}&status=2&pageNum=${pUtil.pageNum}">驳回</a>
+						href="<%=basePath%>MerchantDetail/VerifyStatus.do?merchantDetailID=${m.merchantDetailID}&lastUpdateTime=${m.lastUpdateTime}&status=2&pageNum=${pUtil.pageNum}">驳回</a>
 						<a
-						href="http://localhost:9999/admin/MerchantDetail/VerifyStatus.do?merchantDetailID=${m.merchantDetailID}&status=3&pageNum=${pUtil.pageNum}">不同意</a>
+						href="<%=basePath%>MerchantDetail/VerifyStatus.do?merchantDetailID=${m.merchantDetailID}&lastUpdateTime=${m.lastUpdateTime}&status=3&pageNum=${pUtil.pageNum}">不同意</a>
 						
 						</td>
 
@@ -59,10 +59,10 @@ String imgServer = WebServiceConfig.getConfig().get("image.server");
 			</c:forEach>
 		</table>
 		<div style=" text-align:center">
-		<c:if test="${pUtil.pageNum<1}"><a href="http://localhost:9999/admin/MerchantDetail/ListVerify.do?pageNum=${pUtil.pageNum-1}">上一页</a></c:if>						
+		<c:if test="${pUtil.pageNum>1}"><a href="<%=basePath%>MerchantDetail/ListVerify.do?pageNum=${pUtil.pageNum-1}">上一页</a></c:if>						
 		<span align="center">${pUtil.pageNum}</span>
-		<c:if test="${pUtil.total>pUtil.endNum}"><a href="http://localhost:9999/admin/MerchantDetail/ListVerify.do?pageNum=${pUtil.pageNum+1}">下一页</a></c:if>						
-		<span align="letf"><a href="http://10.222.29.152:9999/admin/MerchantDetail/ListToUpdate.do">拉黑拉白</a></span>
+		<c:if test="${pUtil.total>pUtil.endNum}"><a href="<%=basePath%>MerchantDetail/ListVerify.do?pageNum=${pUtil.pageNum+1}">下一页</a></c:if>						
+		<span align="letf"><a href="<%=basePath%>MerchantDetail/ListToUpdate.do">拉黑拉白</a></span>
 		</div>
 	</div>
 </body>

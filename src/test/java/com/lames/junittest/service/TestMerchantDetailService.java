@@ -2,19 +2,26 @@ package com.lames.junittest.service;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import com.lames.admin.constant.MerchantDetailStatus;
+import com.lames.admin.dao.impl.MerchantDetailDAOimpl;
+import com.lames.admin.model.JsonResult;
+import com.lames.admin.model.MerchantDetail;
 import com.lames.admin.service.impl.MerchantDetailServiceimpl;
 import com.lames.admin.util.PageUtil;
 
 public class TestMerchantDetailService {
 
 	private MerchantDetailServiceimpl service ;
-	
+	private MerchantDetailDAOimpl dao ;
 	@Before
 	public void init() {
 		service = new MerchantDetailServiceimpl();
+		dao = new MerchantDetailDAOimpl();
 	}
 	
 	@Test
@@ -25,14 +32,15 @@ public class TestMerchantDetailService {
 
 	@Test// 状态参数为1时 改为3，为3时改为1.
 	public void testUpdateMerchantDetailStatus() {
-
-		assertEquals(1,service.updateMerchantDetailStatus(4, 1));
+		MerchantDetail merchantDetail=dao.fingByID(61);
+		assertEquals(0,service.updateMerchantDetailStatus(merchantDetail, 3));
 	}
 	
 	@Test//将状态改成参数值
 	public void testverifyMerchantDetailStatus() {
-
-		assertEquals(1,service.verifyMerchantDetailStatus(1, 3));
+		MerchantDetail merchantDetail=dao.fingByID(61);
+		merchantDetail.setStatus(MerchantDetailStatus.PASSED);
+		assertEquals(1,service.verifyMerchantDetailStatus(merchantDetail));
 	}
 	
 	@Test//查找一个MerchantDetail
@@ -54,5 +62,25 @@ public class TestMerchantDetailService {
 		assertNotNull(service.listToVerify(pUtil));
 	}
 	
+	@Test//测试是否能更新状态,true
+	public void isUpdateableTest() {		
+		MerchantDetail merchantDetail=dao.fingByID(61);
+		merchantDetail.setIntroduction("I am modified");
+		JsonResult jsonResult=service.isUpdateable(merchantDetail);
+		System.out.println(jsonResult.isStatus());
+		assertTrue(jsonResult.isStatus());
+	}
+	
+	@Test//测试是否能更新状态,false
+	public void isUpdateableTestFalse() {		
+		MerchantDetail merchantDetail=dao.fingByID(61);
+		java.util.Date curDate = new java.util.Date();
+		Long lastUpdateTime = curDate.getTime();
+		merchantDetail.setLastUpdateTime(lastUpdateTime);
+		merchantDetail.setIntroduction("if modified");
+		JsonResult jsonResult=service.isUpdateable(merchantDetail);
+		System.out.println(jsonResult.isStatus());
+		assertFalse(jsonResult.isStatus());
+	}
 	
 }

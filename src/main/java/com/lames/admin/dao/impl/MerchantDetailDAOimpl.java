@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lames.admin.constant.MerchantDetailStatus;
 import com.lames.admin.dao.IMerchantDetailDAO;
 import com.lames.admin.model.MerchantDetail;
 import com.lames.admin.util.DBUtil;
-import com.lames.admin.util.Dbutil2;
 import com.lames.admin.util.PageUtil;
 
 public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
@@ -26,7 +26,7 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 		PreparedStatement ps = null;
 		try {
 			String sql = "SELECT MERCHANTDETAIL_ID," + "MERCHANT_ID," + "IDCARD_NUM," + "IDCARD_PIC," + "MERCHANT_NAME,"
-					+ "SHOP_ID," + "STATUS," + "SHOP_PIC," + "BUSINESS_PIC," + "ADDRESS," + "INTRODUCTION "
+					+ "SHOP_ID," + "STATUS," + "SHOP_PIC," + "BUSINESS_PIC," + "ADDRESS," + "INTRODUCTION,"+"LAST_UPDATE_TIME "
 					+ "From MERCHANTDETAIL where MERCHANT_ID=? ";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, merchantID);
@@ -74,7 +74,7 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 		try {
 			String sql = "SELECT SHOP_ID From MERCHANTDETAIL where STATUS=? ";
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, 1);// 审核通过的
+			ps.setInt(1, MerchantDetailStatus.PASSED);// 审核通过的
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				list.add(rs.getInt(1));
@@ -106,20 +106,20 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 		try {
 			String totalSQL = "SELECT Count(*) FROM MERCHANTDETAIL where STATUS not in(?,?)";
 			ps = conn.prepareStatement(totalSQL);
-			ps.setInt(1, 0);// 未审核；不查询未审核
-			ps.setInt(2, 2);// 驳回；不查询驳回
+			ps.setInt(1, MerchantDetailStatus.UNTREATED);// 未审核；不查询未审核
+			ps.setInt(2, MerchantDetailStatus.REJECTED);// 驳回；不查询驳回
 			rs1 = ps.executeQuery();
 			while (rs1.next()) {
 				pUtil.setTotal(rs1.getInt(1));
 				System.out.println(pUtil.getTotal());
 			}
 			String sql = "SELECT MERCHANTDETAIL_ID," + "MERCHANT_ID," + "IDCARD_NUM," + "IDCARD_PIC," + "MERCHANT_NAME,"
-					+ "SHOP_ID," + "STATUS," + "SHOP_PIC," + "BUSINESS_PIC," + "ADDRESS," + "INTRODUCTION "
+					+ "SHOP_ID," + "STATUS," + "SHOP_PIC," + "BUSINESS_PIC," + "ADDRESS," + "INTRODUCTION,"+"LAST_UPDATE_TIME "
 					+ "From (SELECT A.* ,ROWNUM RN FROM MERCHANTDETAIL A where STATUS not in(?,?))"
 					+ " WHERE RN between ? and ?";
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, 0);// 未审核；不查询未审核
-			ps.setInt(2, 2);// 驳回；不查询驳回
+			ps.setInt(1, MerchantDetailStatus.UNTREATED);// 未审核；不查询未审核
+			ps.setInt(2, MerchantDetailStatus.REJECTED);// 驳回；不查询驳回
 			ps.setInt(3, pUtil.getBeginNum());
 			ps.setInt(4, pUtil.getEndNum());
 			rs = ps.executeQuery();
@@ -167,7 +167,7 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 		List<MerchantDetail> list = new ArrayList<MerchantDetail>();
 		try {
 			String sql = "SELECT MERCHANTDETAIL_ID," + "MERCHANT_ID," + "IDCARD_NUM," + "IDCARD_PIC," + "MERCHANT_NAME,"
-					+ "SHOP_ID," + "STATUS," + "SHOP_PIC," + "BUSINESS_PIC," + "ADDRESS," + "INTRODUCTION "
+					+ "SHOP_ID," + "STATUS," + "SHOP_PIC," + "BUSINESS_PIC," + "ADDRESS," + "INTRODUCTION,"+"LAST_UPDATE_TIME "
 					+ "From (SELECT A.* ,ROWNUM RN FROM MERCHANTDETAIL A where STATUS=? )"
 					+ " WHERE RN between ? and ?";
 			ps = conn.prepareStatement(sql);
@@ -218,7 +218,7 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 		PreparedStatement ps = null;
 		try {
 			String sql = "SELECT MERCHANTDETAIL_ID," + "MERCHANT_ID," + "IDCARD_NUM," + "IDCARD_PIC," + "MERCHANT_NAME,"
-					+ "SHOP_ID," + "STATUS," + "SHOP_PIC," + "BUSINESS_PIC," + "ADDRESS," + "INTRODUCTION "
+					+ "SHOP_ID," + "STATUS," + "SHOP_PIC," + "BUSINESS_PIC," + "ADDRESS," + "INTRODUCTION,"+"LAST_UPDATE_TIME "
 					+ "From MERCHANTDETAIL where MERCHANTDETAIL_ID=? ";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, merchantDetailID);
@@ -240,6 +240,7 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 				m.setBusinessPic(rs.getString(9));
 				m.setAddress(rs.getString(10));
 				m.setIntroduction(rs.getString(11));
+				m.setLastUpdateTime(rs.getLong(12));
 				return m;
 			}
 		} catch (Exception e) {
@@ -286,23 +287,27 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 		PreparedStatement ps = null;
 		try {
 			String sql = "UPDATE MERCHANTDETAIL SET IDCARD_NUM = ?,IDCARD_PIC=?,"
-					+ "MERCHANT_NAME=?,STATUS=0,SHOP_PIC=?,BUSINESS_PIC=?,ADDRESS=?,INTRODUCTION=? WHERE MERCHANTDETAIL_ID=?";
+					+ "MERCHANT_NAME=?,STATUS=?,SHOP_PIC=?,BUSINESS_PIC=?,ADDRESS=?,INTRODUCTION=?,LAST_UPDATE_TIME=?"
+					+ " WHERE MERCHANTDETAIL_ID=?";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, detail.getIdcardNum());
 			ps.setString(2, detail.getIdcardPic());
 			ps.setString(3, detail.getMerchantName());
+			ps.setInt(4, detail.getStatus());
 			if (detail.getShopPic() == null) {
-				ps.setString(4, null);
+				ps.setString(5, null);
 			} else {
 				String str ="";
 				for(int i = 0 ;i<detail.getShopPic().length;i++)
 					str =str+ detail.getShopPic()[i]+";;";
-				ps.setString(4, str);
+				ps.setString(5, str);
 			}
-			ps.setString(5, detail.getBusinessPic());
-			ps.setString(6, detail.getAddress());
-			ps.setString(7, detail.getIntroduction());
-			ps.setInt(8, detail.getMerchantDetailID());
+			ps.setString(6, detail.getBusinessPic());
+			ps.setString(7, detail.getAddress());
+			ps.setString(8, detail.getIntroduction());
+			ps.setLong(9,detail.getLastUpdateTime());
+			ps.setInt(10, detail.getMerchantDetailID());
+			
 			return ps.executeUpdate();
 		} catch (Exception e) {
 			try {
@@ -325,7 +330,7 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 		try {
 			String sql = "INSERT INTO MERCHANTDETAIL ( MERCHANTDETAIL_ID," + "MERCHANT_ID," + "IDCARD_NUM,"
 					+ "IDCARD_PIC," + "MERCHANT_NAME," + "SHOP_ID," + "STATUS," + "SHOP_PIC," + "BUSINESS_PIC,"
-					+ "ADDRESS,INTRODUCTION)" + "values(S_merchantDetail.nextval,?,?,?,?,?,?,?,?,?,?)";
+					+ "ADDRESS,INTRODUCTION,LAST_UPDATE_TIME)" + "values(S_merchantDetail.nextval,?,?,?,?,?,?,?,?,?,?,?)";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, m.getMerchantID());
 			ps.setInt(2, m.getIdcardNum());
@@ -344,6 +349,7 @@ public class MerchantDetailDAOimpl implements IMerchantDetailDAO {
 			ps.setString(8, m.getBusinessPic());
 			ps.setString(9, m.getAddress());
 			ps.setString(10, m.getIntroduction());
+			ps.setLong(11, m.getLastUpdateTime());
 			return ps.executeUpdate();
 
 		} catch (Exception e) {

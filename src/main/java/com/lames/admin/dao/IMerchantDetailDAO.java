@@ -9,7 +9,7 @@ public interface IMerchantDetailDAO {
 
 	public MerchantDetail findByMerchantID(Integer merchantID);
 	public int insert(MerchantDetail m);
-	public MerchantDetail fingByID(Integer merchantID);
+	public MerchantDetail fingByID(Integer merchantDetailID);
 	public List<Integer> queryPassedShopID();
 	public List<MerchantDetail> listToUpdateStatus(PageUtil pUtil);
 	public List<MerchantDetail> listToVerify(PageUtil pUtil);

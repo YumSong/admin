@@ -32,4 +32,5 @@ public class TestMerchantDAO {
 		assertEquals("jacky", m.getLoginName());
 	}
 
+
 }

@@ -1,10 +1,14 @@
 package com.lames.admin.service.impl;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lames.admin.constant.MerchantDetailStatus;
 import com.lames.admin.dao.impl.MerchantDetailDAOimpl;
+import com.lames.admin.dao.orm.IMerchantDetailDAOorm;
+import com.lames.admin.dao.orm.impl.MerchantDetailDAOorm;
 import com.lames.admin.model.JsonResult;
 import com.lames.admin.model.MerchantDetail;
 import com.lames.admin.service.IMerchantDetailService;
@@ -14,6 +18,7 @@ public class MerchantDetailServiceimpl implements IMerchantDetailService {
 
 	private MerchantDetailDAOimpl merchantDetailDAO = new MerchantDetailDAOimpl();
 
+	
 	public String getPassedShopID() {
 		// TODO Auto-generated method stub
 		List<Integer> list = merchantDetailDAO.queryPassedShopID();
@@ -40,21 +45,30 @@ public class MerchantDetailServiceimpl implements IMerchantDetailService {
 		return list;
 	}
 
-	public int updateMerchantDetailStatus(Integer merchantDetailID, Integer status) {
+	public int updateMerchantDetailStatus(MerchantDetail merchantDetail, Integer status) {
 		// TODO Auto-generated method stub
-		if (status == 3) {
-			merchantDetailDAO.updateStatusByID(merchantDetailID, 1);
-			return 1;
-		} else if (status == 1) {
-			merchantDetailDAO.updateStatusByID(merchantDetailID, 3);
-			return 1;
+		if (merchantDetail != null) {
+			if (status != merchantDetail.getStatus()) {
+				merchantDetail.setStatus(status);
+				if(isUpdateable(merchantDetail).isStatus())
+					return 1;
+			}
+		} else {
+			return 0;
 		}
 		return 0;
 	}
 
-	public int verifyMerchantDetailStatus(Integer merchantDetailID, Integer status) {
+	public int verifyMerchantDetailStatus(MerchantDetail merchantDetail) {
 		// TODO Auto-generated method stub
-		return merchantDetailDAO.updateStatusByID(merchantDetailID, status);
+		if (merchantDetail != null) {
+			if(isUpdateable(merchantDetail).isStatus()) {
+				//set jsonResult  message
+				return 1;
+			}
+		}
+		//set jsonResult  message
+		return 0;
 	}
 
 	public String findMerchantDetailByMerchantID(Integer merchantID) {
@@ -83,17 +97,43 @@ public class MerchantDetailServiceimpl implements IMerchantDetailService {
 	}
 
 	public MerchantDetail insert(MerchantDetail merchantDetail) {
-		System.out.println("detail:"+merchantDetail);
+		System.out.println("detail:" + merchantDetail);
 		MerchantDetail detail = merchantDetailDAO.findByMerchantID(merchantDetail.getMerchantID());
-		System.out.println("detail2:"+detail);
-		if(detail != null) {
-			if(detail.getStatus() == 2) {
+		System.out.println("detail2:" + detail);
+		if (detail != null) {
+			if (detail.getStatus() == MerchantDetailStatus.REJECTED) {
+				merchantDetail.setStatus(MerchantDetailStatus.UNTREATED);
 				merchantDetailDAO.updateByID(merchantDetail);
 			}
-		}else {
+		} else {
 			merchantDetailDAO.insert(merchantDetail);
 		}
 		return merchantDetail;
+	}
+
+	public JsonResult isUpdateable(MerchantDetail merchantDetail) {
+		// TODO Auto-generated method stub
+		JsonResult jsonResult = new JsonResult();
+		MerchantDetail oldMerchantDetail = merchantDetailDAO.fingByID(merchantDetail.getMerchantDetailID());
+		if (oldMerchantDetail.getLastUpdateTime().equals(merchantDetail.getLastUpdateTime())) {
+			java.util.Date curDate = new java.util.Date();
+			Long lastUpdateTime=curDate.getTime();
+			merchantDetail.setLastUpdateTime(lastUpdateTime);
+			if (merchantDetailDAO.updateByID(merchantDetail) > 0) {
+				jsonResult.setStatus(true);
+				jsonResult.setMessage("Update successfully!");
+				return jsonResult;
+			} else {
+				jsonResult.setStatus(false);
+				return jsonResult;
+			}
+
+		} else {
+			jsonResult.setStatus(false);
+			jsonResult.setMessage("Error:This MerchantDetail has been modified!");
+			return jsonResult;
+		}
+
 	}
 
 }

@@ -1,5 +1,9 @@
 package com.lames.admin.model;
 
+
+import java.util.Arrays;
+
+
 public class MerchantDetail {
 
 	private Integer merchantDetailID;
@@ -9,24 +13,14 @@ public class MerchantDetail {
 	private String merchantName;
 	private Integer shopID;
 	private Integer status;// 狀態：0-待處理、 1-審核通過（拉白）、 2-駁回 3、不同意（拉黑）
+
 	private String[] shopPic;
+	private String shopPics;
 	private String businessPic;
 	private String address;
 	private String introduction;
-	
 
-	public String[] getShopPic() {
-		return shopPic;
-	}
-
-	public void setShopPic(String[] shopPic) {
-		this.shopPic = shopPic;
-	}
-
-	public MerchantDetail() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	private Long lastUpdateTime;
 
 	public Integer getMerchantDetailID() {
 		return merchantDetailID;
@@ -84,6 +78,21 @@ public class MerchantDetail {
 		this.status = status;
 	}
 
+	public String[] getShopPic() {
+		return shopPic;
+	}
+
+	public void setShopPic(String[] shopPic) {
+		this.shopPic = shopPic;
+	}
+
+	public String getShopPics() {
+		return shopPics;
+	}
+
+	public void setShopPics(String shopPics) {
+		this.shopPics = shopPics;
+	}
 
 	public String getBusinessPic() {
 		return businessPic;
@@ -101,7 +110,6 @@ public class MerchantDetail {
 		this.address = address;
 	}
 
-	
 	public String getIntroduction() {
 		return introduction;
 	}
@@ -110,12 +118,22 @@ public class MerchantDetail {
 		this.introduction = introduction;
 	}
 
+	public Long getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+
+	public void setLastUpdateTime(Long lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
+	}
+
 	@Override
 	public String toString() {
 		return "MerchantDetail [merchantDetailID=" + merchantDetailID + ", merchantID=" + merchantID + ", idcardNum="
 				+ idcardNum + ", idcardPic=" + idcardPic + ", merchantName=" + merchantName + ", shopID=" + shopID
-				+ ", status=" + status + ", shopPic=" + shopPic + ", businessPic=" + businessPic + ", address="
-				+ address + "]";
+				+ ", status=" + status + ", shopPic=" + Arrays.toString(shopPic) + ", shopPics=" + shopPics
+				+ ", businessPic=" + businessPic + ", address=" + address + ", introduction=" + introduction
+				+ ", lastUpdateTime=" + lastUpdateTime + "]";
 	}
 
+	
 }

@@ -2,6 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
+<%@ page  import="com.lames.admin.config.*" %>
+<%
+String path = request.getContextPath(); 
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
+String imgServer = WebServiceConfig.getConfig().get("image.server");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,18 +37,18 @@
 					<c:if test="${m.status==3}">不同意</c:if>
 					</td>
 					<td><a
-						href="http://localhost:9999/admin/MerchantDetail/UpdateStatus.do?merchantDetailID=${m.merchantDetailID}&status=${m.status}&pageNum=${pUtil.pageNum}">拉黑</a>
+						href="<%=basePath%>MerchantDetail/UpdateStatus.do?merchantDetailID=${m.merchantDetailID}&lastUpdateTime=${m.lastUpdateTime}&status=3&pageNum=${pUtil.pageNum}">拉黑</a>
 						<a
-						href="http://localhost:9999/admin/MerchantDetail/UpdateStatus.do?merchantDetailID=${m.merchantDetailID}&status=${m.status}&pageNum=${pUtil.pageNum}">拉白</a></td>
+						href="<%=basePath%>MerchantDetail/UpdateStatus.do?merchantDetailID=${m.merchantDetailID}&lastUpdateTime=${m.lastUpdateTime}&status=1&pageNum=${pUtil.pageNum}">拉白</a></td>
 
 				</tr>
 			</c:forEach>
 		</table>
 		<div style=" text-align:center">
-		<c:if test="${pUtil.pageNum<1}"><a href="http://localhost:9999/admin/MerchantDetail/ListToUpdate.do?pageNum=${pUtil.pageNum-1}">上一页</a></c:if>						
+		<c:if test="${pUtil.pageNum>1}"><a href="<%=basePath%>MerchantDetail/ListToUpdate.do?pageNum=${pUtil.pageNum-1}">上一页</a></c:if>						
 		<span align="center">${pUtil.pageNum}</span>
-		<c:if test="${pUtil.total>pUtil.endNum}"><a href="http://localhost:9999/admin/MerchantDetail/ListToUpdate.do?pageNum=${pUtil.pageNum+1}">下一页</a></c:if>						
-		<span align="letf"><a href="http://10.222.29.152:9999/admin/MerchantDetail/ListVerify.do">审核信息</a></span>
+		<c:if test="${pUtil.total>pUtil.endNum}"><a href="<%=basePath%>MerchantDetail/ListToUpdate.do?pageNum=${pUtil.pageNum+1}">下一页</a></c:if>						
+		<span align="letf"><a href="<%=basePath%>MerchantDetail/ListVerify.do">审核信息</a></span>
 		</div>
 	</div>
 </body>

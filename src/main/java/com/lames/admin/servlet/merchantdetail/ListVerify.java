@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lames.admin.model.MerchantDetail;
-import com.lames.admin.model.MerchantDetailPic;
+
 import com.lames.admin.service.impl.MerchantDetailServiceimpl;
 import com.lames.admin.util.PageUtil;
 

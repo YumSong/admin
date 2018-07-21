@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lames.admin.model.MerchantDetail;
 import com.lames.admin.service.impl.MerchantDetailServiceimpl;
 
 /**
@@ -37,8 +38,10 @@ public class UpdateStatus extends HttpServlet {
 		if (Status != null && MerchantDetailID != null) {
 			Integer merchantDetailID = Integer.valueOf(MerchantDetailID);
 			Integer status = Integer.valueOf(Status);
+			MerchantDetail merchantDetail =new MerchantDetail();
+			merchantDetail.setMerchantID(merchantDetailID);
 			String pageNum = request.getParameter("pageNum");
-			merchantDetailService.updateMerchantDetailStatus(merchantDetailID, status);
+			merchantDetailService.updateMerchantDetailStatus(merchantDetail, status);
 			response.sendRedirect("/admin/MerchantDetail/ListToUpdate.do?pageNum=" + pageNum);
 		}
 	}

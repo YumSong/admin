@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lames.admin.model.MerchantDetail;
 import com.lames.admin.service.impl.MerchantDetailServiceimpl;
 
 /**
@@ -34,8 +35,11 @@ public class VerifyStatus extends HttpServlet {
 		if (Status != null && MerchantDetailID != null) {
 			Integer merchantDetailID = Integer.valueOf(MerchantDetailID);
 			Integer status = Integer.valueOf(Status);
+			MerchantDetail merchantDetail =new MerchantDetail();
+			merchantDetail.setMerchantID(merchantDetailID);
+			merchantDetail.setStatus(status);
 			String pageNum = request.getParameter("pageNum");
-			merchantDetailService.verifyMerchantDetailStatus(merchantDetailID, status);
+			merchantDetailService.verifyMerchantDetailStatus(merchantDetail);
 			response.sendRedirect("/admin/MerchantDetail/ListVerify.do?pageNum="+pageNum);
 		}	
 		
