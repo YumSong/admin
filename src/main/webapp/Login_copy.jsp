@@ -9,12 +9,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="Login.do" method="post">
+<form action="Login.do" method="post" id ="myform">
 账号:<input type="text" name="loginName"/>
 密码:<input type="password" name="loginPassword"/>
 <input type="submit" value="LOGIN"/>
 </form>
-<c:forEach var="err" items="${errMsg}"><p color="red">${err}</p></c:forEach>
+<c:forEach var="err" items="${errMsg}">
+<p color="red">${err}</p></c:forEach>
 </body>
  
 </html>

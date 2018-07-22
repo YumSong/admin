@@ -1,9 +1,11 @@
 package com.lames.admin.model.orm;
 
 import com.jake.annotation.Column;
+import com.jake.annotation.Entity;
 import com.jake.annotation.ID;
 import com.jake.annotation.Sequence;
 
+@Entity("T_ADMIN")
 public class TAdmin {
 	
 	@Column("login_name")

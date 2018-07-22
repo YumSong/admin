@@ -30,39 +30,39 @@ public class TestMerchantDetailService {
 		assertNotNull(service.getPassedShopID());
 	}
 
-	@Test// 状态参数为1时 改为3，为3时改为1.
+	@Test
 	public void testUpdateMerchantDetailStatus() {
 		MerchantDetail merchantDetail=dao.fingByID(61);
 		assertEquals(0,service.updateMerchantDetailStatus(merchantDetail, 3));
 	}
 	
-	@Test//将状态改成参数值
+	@Test
 	public void testverifyMerchantDetailStatus() {
 		MerchantDetail merchantDetail=dao.fingByID(61);
 		merchantDetail.setStatus(MerchantDetailStatus.PASSED);
 		assertEquals(1,service.verifyMerchantDetailStatus(merchantDetail));
 	}
 	
-	@Test//查找一个MerchantDetail
+	@Test
 	public void testFind() {
 		System.out.println(service.findMerchantDetailByMerchantID(5).toString());
 		assertNotNull(service.findMerchantDetailByMerchantID(5));
 	}
 	
-	@Test//展示MerchantDetails可以拉黑拉白的列表
+	@Test
 	public void testListtoUpdate() {
 		PageUtil pUtil = new PageUtil();
 		System.out.println(service.listToUpdateStatus(pUtil).size());
 		assertNotNull(service.listToUpdateStatus(pUtil));
 	}
 	
-	@Test//展示MerchantDetails可以拉黑拉白的列表
+	@Test
 	public void testListtoVerify() {
 		PageUtil pUtil = new PageUtil();
 		assertNotNull(service.listToVerify(pUtil));
 	}
 	
-	@Test//测试是否能更新状态,true
+	@Test
 	public void isUpdateableTest() {		
 		MerchantDetail merchantDetail=dao.fingByID(61);
 		merchantDetail.setIntroduction("I am modified");
@@ -71,7 +71,7 @@ public class TestMerchantDetailService {
 		assertTrue(jsonResult.isStatus());
 	}
 	
-	@Test//测试是否能更新状态,false
+	@Test
 	public void isUpdateableTestFalse() {		
 		MerchantDetail merchantDetail=dao.fingByID(61);
 		java.util.Date curDate = new java.util.Date();

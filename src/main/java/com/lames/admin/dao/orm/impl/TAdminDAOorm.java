@@ -1,8 +1,6 @@
 package com.lames.admin.dao.orm.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
 
 import com.jake.core.Criteria;
@@ -25,8 +23,8 @@ public class TAdminDAOorm implements ITAdminDAOorm {
 		Criteria criteria = new Criteria();
 		criteria.put("login_Name=",loginName);
 		criteria.put("login_Password=",loginPassword);
-		admin=sqlSession.find(admin, criteria);
-		return admin;
+		TAdmin admin2=sqlSession.find(admin, criteria);
+		return admin2;
 	}
 
 }

@@ -10,8 +10,10 @@ import javax.servlet.http.HttpSession;
 
 import com.jake.webmvc.annotation.Controller;
 import com.jake.webmvc.annotation.Mapping;
-import com.lames.admin.model.TAdmin;
-import com.lames.admin.service.impl.TAdminServiceimpl;
+import com.lames.admin.model.JsonResult;
+import com.lames.admin.model.orm.TAdmin;
+import com.lames.admin.service.orm.impl.TAdminServiceORMimpl;
+import com.lames.admin.util.JsonUtil;
 import com.lames.admin.validator.LoginNameValidator;
 import com.lames.admin.validator.LoginPasswordValidator;
 
@@ -19,7 +21,7 @@ import com.lames.admin.validator.LoginPasswordValidator;
 
 public class TAdminController {
 
-	private TAdminServiceimpl tadminService = new TAdminServiceimpl();
+	private TAdminServiceORMimpl tadminService = new TAdminServiceORMimpl();
 	
 	@Mapping("/Login.do")
 	public void loginTAdmin(HttpServletRequest request, HttpServletResponse response)
@@ -37,17 +39,10 @@ public class TAdminController {
 			request.setAttribute("errMsg", err1);
 			request.getRequestDispatcher("Login.jsp").forward(request, response);
 		} else {
-			TAdmin admin = tadminService.login(loginName, loginPassword);
-			if(admin != null) {
-				System.out.println(admin.getLoginName());
-				HttpSession session = request.getSession();
-				session.setAttribute("admin", admin);
-				response.sendRedirect("/admin/MerchantDetail/ListVerify.do");
-			}else {
-				err1.add("Account or password is invalid");
-				request.setAttribute("errMsg", err1);
-				request.getRequestDispatcher("Login.jsp").forward(request, response);
-			}
+			JsonResult jsonResult = tadminService.login(loginName, loginPassword);
+			String jstr=JsonUtil.objectToJson(jsonResult);
+			response.setHeader("Access-Control-Allow-Origin", "*");
+			response.getWriter().write(jstr);
 		}
 	}
 
