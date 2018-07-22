@@ -12,6 +12,15 @@
   	<filter-name>ExceptionFilter</filter-name>
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
+  
+  <filter>
+        <filter-name>DispatcherFilter</filter-name>
+        <filter-class>com.jake.webmvc.core.DispatcherFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>DispatcherFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
   <servlet>
   	<servlet-name>ListToUpdate</servlet-name>
   	<servlet-class>com.lames.admin.servlet.merchantdetail.ListToUpdate</servlet-class>
