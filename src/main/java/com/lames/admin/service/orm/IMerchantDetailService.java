@@ -10,9 +10,9 @@ public interface IMerchantDetailService {
 
 	public String getPassedShopID();
 	public String listToUpdateStatus(PageUtil pUtil);
-	public List<MerchantDetail> listToVerify(PageUtil pUtil);
+	public String listToVerify(PageUtil pUtil);
 	public String findMerchantDetailByMerchantID(Integer merchantDetailID);
-	public JsonResult updateMerchantDetailStatus(MerchantDetail merchantDetail, Integer Status);
+	public String updateMerchantDetailStatus(MerchantDetail merchantDetail, Integer Status);
 	public JsonResult verifyMerchantDetailStatus(MerchantDetail merchantDetail);
 	public MerchantDetail insert(MerchantDetail merchantDetail);
 	public JsonResult isUpdateable(MerchantDetail merchantDetail);

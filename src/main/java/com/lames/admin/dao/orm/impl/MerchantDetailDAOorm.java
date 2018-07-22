@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.jake.core.Criteria;
 import com.jake.core.PageInfo;
 import com.jake.core.SqlSession;
 import com.jake.core.SqlSessionFactory;
+import com.lames.admin.config.WebServiceConfig;
 import com.lames.admin.constant.MerchantDetailStatus;
 import com.lames.admin.dao.orm.IMerchantDetailDAOorm;
 import com.lames.admin.model.orm.MerchantDetail;
@@ -39,9 +41,12 @@ public class MerchantDetailDAOorm implements IMerchantDetailDAOorm {
 		String pics ="";
 		if(str!=null) {
 			for(String s:str) {
+				System.out.println(s);
 				pics=pics+s+";;";
+				
 			}
 		}
+		m.setShopPic(null);
 		m.setShopPics(pics);
 		int i = sqlSession.save(m);
 		sqlSession.close();
@@ -56,7 +61,7 @@ public class MerchantDetailDAOorm implements IMerchantDetailDAOorm {
 		merchantDetail.setMerchantDetailID(merchantDetailID);
 		MerchantDetail merchantDetail2=(MerchantDetail)sqlSession.find(merchantDetail);
 		String pics =merchantDetail2.getShopPics();
-		if(!"".equals(pics)) {
+		if(!"".equals(pics)&&pics!=null) {
 			merchantDetail2.setShopPic(pics.split(";;"));
 		}
 		sqlSession.close();
@@ -80,37 +85,55 @@ public class MerchantDetailDAOorm implements IMerchantDetailDAOorm {
 
 	public List<MerchantDetail> listToUpdateStatus(PageUtil pUtil)throws SQLException  {
 		// TODO Auto-generated method stub
+			
+		String imgServer = WebServiceConfig.getConfig().get("image.server");
 		factory.setDataSource(DBormUtil.getBasicDataSource());
 		SqlSession sqlSession = factory.createSqlSession();
 		Criteria criteria = new Criteria();
-		criteria.put("status<>",MerchantDetailStatus.UNTREATED);
+		
+		criteria.put("status > ",MerchantDetailStatus.UNTREATED);
+		criteria.put("status <> ",MerchantDetailStatus.REJECTED);
+		
 		List<MerchantDetail> listM=sqlSession.findAll(MerchantDetail.class, criteria,pUtil.getBeginNum(),pUtil.getEndNum());
 		PageInfo info = new PageInfo(listM);
-		pUtil.setTotal(info.getTotal());
+
 		for(MerchantDetail m :listM) {
 			String str = m.getShopPics();
 			if(!"".equals(str)&& str!=null) {
-				m.setShopPic(str.split(";;"));
+				String[] picss=str.split(";;");
+				for(int i=0;i<picss.length;i++) {
+					picss[i]=imgServer+picss[i];
+				}
+				m.setShopPic(picss);
 			}
 		}
+		
+		pUtil.setTotal(info.getTotal());
 		sqlSession.close();
 		return listM;
 	}
 
 	public List<MerchantDetail> listToVerify(PageUtil pUtil)throws SQLException  {
 		// TODO Auto-generated method stub
+		String imgServer = WebServiceConfig.getConfig().get("image.server");
 		factory.setDataSource(DBormUtil.getBasicDataSource());
 		SqlSession sqlSession = factory.createSqlSession();
 		Criteria criteria = new Criteria();
 		criteria.put("status=",MerchantDetailStatus.UNTREATED);
 		List<MerchantDetail> listM=sqlSession.findAll(MerchantDetail.class, criteria,pUtil.getBeginNum(),pUtil.getEndNum());
 		PageInfo info = new PageInfo(listM);
-		pUtil.setTotal(info.getTotal());
+		pUtil.setTotal(info.getTotal());	
 		for(MerchantDetail m :listM) {
-			if(!"".equals(m.getShopPics())) {
-				m.setShopPic(m.getShopPics().split(";;"));
+			String str = m.getShopPics();
+			if(!"".equals(str)&& str!=null) {
+				String[] picss=str.split(";;");
+				for(int i=0;i<picss.length;i++) {
+					picss[i]=imgServer+picss[i];
+				}
+				m.setShopPic(picss);
 			}
 		}
+		
 		sqlSession.close();
 		return listM;
 	}

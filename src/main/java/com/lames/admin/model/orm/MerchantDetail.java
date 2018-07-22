@@ -8,6 +8,8 @@ import com.jake.annotation.Entity;
 import com.jake.annotation.ID;
 import com.jake.annotation.Sequence;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 @Entity("merchantDetail")
 public class MerchantDetail {
 
@@ -26,16 +28,15 @@ public class MerchantDetail {
     @Column("shop_id")	
 	private Integer shopID;
     @Column("status")	
-	private Integer status;// 狀態：0-待處理、 1-審核通過（拉白）、 2-駁回 3、不同意（拉黑）
-
+	private Integer status;
 	private String[] shopPic;
     @Column("shop_pic")	
 	private String shopPics;
     @Column("business_pic")	
 	private String businessPic;
     @Column("address")	
-	private String address;
-    @Column("introduction")	
+	private String address; 
+    @Column("INTRODUCTION")	
 	private String introduction;
     @Column("last_update_time")
 	private Long lastUpdateTime;

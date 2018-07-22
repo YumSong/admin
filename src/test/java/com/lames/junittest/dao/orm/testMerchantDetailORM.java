@@ -11,6 +11,7 @@ import com.lames.admin.constant.MerchantDetailStatus;
 import com.lames.admin.dao.orm.IMerchantDetailDAOorm;
 import com.lames.admin.dao.orm.impl.MerchantDetailDAOorm;
 import com.lames.admin.model.orm.MerchantDetail;
+import com.lames.admin.util.PageUtil;
 
 public class testMerchantDetailORM {
 
@@ -23,7 +24,7 @@ public class testMerchantDetailORM {
 		assertNotNull(m);
 	}
 	
-	@Test//未完成
+	@Test//æœªå®Œæˆ�
 	public void testFindByMerchantId() throws SQLException {
 		MerchantDetail m = dao.findByMerchantID(59);
 		System.out.println(m.toString());
@@ -42,18 +43,19 @@ public class testMerchantDetailORM {
 		m.setIdcardNum(11122);
 		m.setIdcardPic("https://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/logo-zhidao.gif");
 		m.setMerchantID(0);
-		m.setMerchantName("test name2");
+		m.setMerchantName("junit name2");
 		m.setShopID(3);
-		m.setShopPics(str);
+		m.setShopPic(str.split(";;"));
 		m.setStatus(0);
 		m.setLastUpdateTime(lastUpdateTime);
+		m.setIntroduction("introductionssss");
 		int i =dao.insert(m);
 		System.out.println(i);
 		assertEquals(1, i);
 	}
 	
 	
-	@Test//ORM未完成 所以在完成后要继续测试
+	@Test//ORMæœªå®Œæˆ� æ‰€ä»¥åœ¨å®Œæˆ�å�Žè¦�ç»§ç»­æµ‹è¯•
 	public void testQueryPassedShopID() throws SQLException {
 		List<Integer>list = dao.queryPassedShopID();
 		System.out.println(list);
@@ -76,5 +78,30 @@ public class testMerchantDetailORM {
 		int i =dao.updateByID(detail);
 		System.out.println(i);
 		assertEquals(1,i);
+	}
+	
+	@Test
+	public void testList() throws SQLException {
+	
+		PageUtil pUtil = new PageUtil();
+		List<MerchantDetail> list = dao.listToUpdateStatus(pUtil);
+		System.out.println(pUtil.getTotal());
+		System.out.println(list.size());
+		for(MerchantDetail m:list) {
+			for(String s:m.getShopPic()) {
+				System.out.println(s);
+			}
+		}
+		assertNotNull(list);
+	}
+	
+	@Test
+	public void testListV() throws SQLException {
+	
+		PageUtil pUtil = new PageUtil();
+		List<MerchantDetail> list = dao.listToVerify(pUtil);
+		System.out.println(pUtil.getTotal());
+		System.out.println(list.size());
+		assertNotNull(list);
 	}
 }
