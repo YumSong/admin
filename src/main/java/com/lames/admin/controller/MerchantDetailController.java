@@ -26,9 +26,12 @@ public class MerchantDetailController {
 		String pageNum = null;
 		PageUtil pUtil = new PageUtil();
 		pageNum = request.getParameter("pageNum");
+
 		if (pageNum == null) {
+			System.out.println(pageNum);
 			pUtil.setPageNum(1);
 		} else {
+			System.out.println(pageNum);
 			pUtil.setPageNum(Integer.valueOf(pageNum));
 		}
 		String jsonStr= merchantDetailService.listToUpdateStatus(pUtil);
@@ -49,10 +52,9 @@ public class MerchantDetailController {
 		} else {
 			pUtil.setPageNum(Integer.valueOf(pageNum));
 		}
-		List<MerchantDetail> list = merchantDetailService.listToVerify(pUtil);
-		request.setAttribute("merchantDetails", list);
-		request.setAttribute("pUtil", pUtil);
-		request.getRequestDispatcher("/MerchantDetail/ListVerify.jsp").forward(request, response);
+		String jsonStr = merchantDetailService.listToVerify(pUtil);;
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.getWriter().write(jsonStr);
 	}
 
 	@Mapping("/UpdateStatus.do")
@@ -63,7 +65,9 @@ public class MerchantDetailController {
 		String status1 = request.getParameter("status");
 		String merchantDetailID1 = request.getParameter("merchantDetailID");
 		String lastUpdateTime1 = request.getParameter("lastUpdateTime");
-
+		System.out.println(status1);
+		System.out.println(merchantDetailID1);
+		System.out.println(lastUpdateTime1);
 		if (status1 != null && merchantDetailID1 != null) {
 			Integer merchantDetailID = Integer.valueOf(merchantDetailID1);
 			Integer status = Integer.valueOf(status1);
@@ -71,33 +75,32 @@ public class MerchantDetailController {
 			MerchantDetail merchantDetail = new MerchantDetail();
 			merchantDetail.setMerchantDetailID(merchantDetailID);
 			merchantDetail.setLastUpdateTime(lastUpdateTime);
-			String pageNum = request.getParameter("pageNum");
-			merchantDetailService.updateMerchantDetailStatus(merchantDetail, status);
-			response.sendRedirect("/admin/MerchantDetail/ListToUpdate.do?pageNum=" + pageNum);
+			String jsonStr=merchantDetailService.updateMerchantDetailStatus(merchantDetail, status);
+			response.getWriter().write(jsonStr);
 		}
 	}
 	
-	@Mapping("/VerifyStatus.do")
-	public void verifyStatus(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String Status = request.getParameter("status");
-		String MerchantDetailID = request.getParameter("merchantDetailID");
-		String lastUpdateTime1 = request.getParameter("lastUpdateTime");
-
-		if (Status != null && MerchantDetailID != null) {
-			Integer merchantDetailID = Integer.valueOf(MerchantDetailID);
-			Integer status = Integer.valueOf(Status);
-			Long  lastUpdateTime = Long.valueOf(lastUpdateTime1);
-			MerchantDetail merchantDetail =new MerchantDetail();
-			merchantDetail.setMerchantDetailID(merchantDetailID);
-			merchantDetail.setStatus(status);
-			merchantDetail.setLastUpdateTime(lastUpdateTime);
-			String pageNum = request.getParameter("pageNum");
-			merchantDetailService.verifyMerchantDetailStatus(merchantDetail);
-			response.sendRedirect("/admin/MerchantDetail/ListVerify.do?pageNum="+pageNum);
-		}	
-	}
+//	@Mapping("/VerifyStatus.do")
+//	public void verifyStatus(HttpServletRequest request, HttpServletResponse response)
+//			throws ServletException, IOException {
+//		// TODO Auto-generated method stub
+//		String Status = request.getParameter("status");
+//		String MerchantDetailID = request.getParameter("merchantDetailID");
+//		String lastUpdateTime1 = request.getParameter("lastUpdateTime");
+//
+//		if (Status != null && MerchantDetailID != null) {
+//			Integer merchantDetailID = Integer.valueOf(MerchantDetailID);
+//			Integer status = Integer.valueOf(Status);
+//			Long  lastUpdateTime = Long.valueOf(lastUpdateTime1);
+//			MerchantDetail merchantDetail =new MerchantDetail();
+//			merchantDetail.setMerchantDetailID(merchantDetailID);
+//			merchantDetail.setStatus(status);
+//			merchantDetail.setLastUpdateTime(lastUpdateTime);
+//			String pageNum = request.getParameter("pageNum");
+//			merchantDetailService.verifyMerchantDetailStatus(merchantDetail);
+//			response.sendRedirect("/admin/MerchantDetail/ListVerify.do?pageNum="+pageNum);
+//		}	
+//	}
 	
 	
 }

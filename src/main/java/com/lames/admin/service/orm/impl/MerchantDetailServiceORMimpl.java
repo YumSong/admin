@@ -65,30 +65,53 @@ public class MerchantDetailServiceORMimpl implements IMerchantDetailService {
 		return jsonStr;
 	}
 
-	public List<MerchantDetail> listToVerify(PageUtil pUtil) {
+	public String listToVerify(PageUtil pUtil) {
 		// TODO Auto-generated method stub
 		List<MerchantDetail> list = null;
+		JsonResult jsonResult = new JsonResult();
+		String jsonStr = null;
 		try {
 			list = merchantDetailDAOorm.listToVerify(pUtil);
+			if(list!=null) {
+				jsonResult.setStatus(true);
+				jsonResult.setMessage("got list");
+				jsonResult.setData("list", list);
+				jsonResult.setData("pUtil",pUtil);
+				jsonStr = JsonUtil.objectToJson(jsonResult);
+				return jsonStr;
+			}else {
+				jsonResult.setStatus(false);
+				jsonResult.setMessage("Other error");
+				jsonStr = JsonUtil.objectToJson(jsonResult);
+				return jsonStr;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return list;
+		return jsonStr;
 	}
 
-	public JsonResult updateMerchantDetailStatus(MerchantDetail merchantDetail, Integer status) {
+	public String updateMerchantDetailStatus(MerchantDetail merchantDetail, Integer status) {
 		// TODO Auto-generated method stub
 		JsonResult jsonResult=null;
+		String jsonStr = null;
 		if (merchantDetail != null) {
 			merchantDetail.setStatus(status);
 			jsonResult =isUpdateable(merchantDetail);
 			if (jsonResult.isStatus())
 				jsonResult.setMessage("Update status successfully ");
-				return jsonResult;
+				try {
+				jsonResult.setData("merchantDetail",merchantDetailDAOorm.fingByID(merchantDetail.getMerchantDetailID()));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				jsonStr=JsonUtil.objectToJson(jsonResult);
+				return jsonStr;
 
 		}
-		return jsonResult;
+		return jsonStr;
 	}
 
 	public JsonResult verifyMerchantDetailStatus(MerchantDetail merchantDetail) {
@@ -181,7 +204,7 @@ public class MerchantDetailServiceORMimpl implements IMerchantDetailService {
 
 			} else {
 				jsonResult.setStatus(false);
-				jsonResult.setMessage("Error:This MerchantDetail has been modified!");
+				jsonResult.setMessage("This MerchantDetail has been modified! Please refresh");
 				return jsonResult;
 			}
 		} catch (SQLException e) {
