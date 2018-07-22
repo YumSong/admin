@@ -9,7 +9,7 @@ import com.lames.admin.util.PageUtil;
 public interface IMerchantDetailService {
 
 	public String getPassedShopID();
-	public List<MerchantDetail> listToUpdateStatus(PageUtil pUtil);
+	public String listToUpdateStatus(PageUtil pUtil);
 	public List<MerchantDetail> listToVerify(PageUtil pUtil);
 	public String findMerchantDetailByMerchantID(Integer merchantDetailID);
 	public JsonResult updateMerchantDetailStatus(MerchantDetail merchantDetail, Integer Status);

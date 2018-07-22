@@ -29,7 +29,7 @@ public class testMerchantORM {
 		String LoginName="test123";
 		String LoginPassword="123456";
 		Merchant merchant = dao.login(LoginName, LoginPassword);
-		System.out.println(merchant);
+		System.out.println(merchant.getMerchantID());
 		assertNotNull(merchant);;
 	}
 

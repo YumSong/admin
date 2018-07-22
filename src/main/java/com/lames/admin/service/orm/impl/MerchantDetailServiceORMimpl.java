@@ -11,6 +11,7 @@ import com.lames.admin.dao.orm.impl.MerchantDetailDAOorm;
 import com.lames.admin.model.JsonResult;
 import com.lames.admin.model.orm.MerchantDetail;
 import com.lames.admin.service.orm.IMerchantDetailService;
+import com.lames.admin.util.JsonUtil;
 import com.lames.admin.util.PageUtil;
 
 public class MerchantDetailServiceORMimpl implements IMerchantDetailService {
@@ -37,16 +38,31 @@ public class MerchantDetailServiceORMimpl implements IMerchantDetailService {
 		return null;
 	}
 
-	public List<MerchantDetail> listToUpdateStatus(PageUtil pUtil) {
+	public String listToUpdateStatus(PageUtil pUtil) {
 		// TODO Auto-generated method stub
 		List<MerchantDetail> list = null;
+		JsonResult jsonResult = new JsonResult();
+		String jsonStr = null;
 		try {
 			list = merchantDetailDAOorm.listToUpdateStatus(pUtil);
+			if(list!=null) {
+				jsonResult.setStatus(true);
+				jsonResult.setMessage("got list");
+				jsonResult.setData("list", list);
+				jsonResult.setData("pUtil",pUtil);
+				jsonStr = JsonUtil.objectToJson(jsonResult);
+				return jsonStr;
+			}else {
+				jsonResult.setStatus(false);
+				jsonResult.setMessage("Other error");
+				jsonStr = JsonUtil.objectToJson(jsonResult);
+				return jsonStr;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return list;
+		return jsonStr;
 	}
 
 	public List<MerchantDetail> listToVerify(PageUtil pUtil) {

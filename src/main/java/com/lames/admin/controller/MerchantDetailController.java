@@ -31,10 +31,10 @@ public class MerchantDetailController {
 		} else {
 			pUtil.setPageNum(Integer.valueOf(pageNum));
 		}
-		List<MerchantDetail> list = merchantDetailService.listToUpdateStatus(pUtil);
-		request.setAttribute("merchantDetails", list);
-		request.setAttribute("pUtil", pUtil);
-		request.getRequestDispatcher("/MerchantDetail/ListToUpdate.jsp").forward(request, response);
+		String jsonStr= merchantDetailService.listToUpdateStatus(pUtil);
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.getWriter().write(jsonStr);
+
 	}
 
 	@Mapping("/ListVerify.do")
@@ -63,7 +63,7 @@ public class MerchantDetailController {
 		String status1 = request.getParameter("status");
 		String merchantDetailID1 = request.getParameter("merchantDetailID");
 		String lastUpdateTime1 = request.getParameter("lastUpdateTime");
-		//设置时间参数 来判断是否能(未完成)
+
 		if (status1 != null && merchantDetailID1 != null) {
 			Integer merchantDetailID = Integer.valueOf(merchantDetailID1);
 			Integer status = Integer.valueOf(status1);
@@ -84,7 +84,7 @@ public class MerchantDetailController {
 		String Status = request.getParameter("status");
 		String MerchantDetailID = request.getParameter("merchantDetailID");
 		String lastUpdateTime1 = request.getParameter("lastUpdateTime");
-		//设置时间参数 来判断是否能(未完成)
+
 		if (Status != null && MerchantDetailID != null) {
 			Integer merchantDetailID = Integer.valueOf(MerchantDetailID);
 			Integer status = Integer.valueOf(Status);
