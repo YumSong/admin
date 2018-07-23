@@ -38,23 +38,23 @@ public class MerchantServiceORMimpl implements IMerchantService {
 		JsonResult jsonResult = new JsonResult();
 		try {
 			m = merchantDAO.find(account);
-		if (m == null) {
-			Merchant merchant = new Merchant();
-			merchant.setLoginName(account);
-			merchant.setLoginPassword(password);
-			if (merchantDAO.insert(merchant) > 0) {
-				m =  merchantDAO.login(account, password);
-				jsonResult.setData("merchant", m);
-				jsonResult.setStatus(true);
-				jsonResult.setMessage("register  successfully");
-			}else {
+			if (m == null) {
+				Merchant merchant = new Merchant();
+				merchant.setLoginName(account);
+				merchant.setLoginPassword(password);
+				if (merchantDAO.insert(merchant) > 0) {
+					m =  merchantDAO.login(account, password);
+					jsonResult.setData("merchant", m);
+					jsonResult.setStatus(true);
+					jsonResult.setMessage("register  successfully");
+				}else {
+					jsonResult.setStatus(false);
+					jsonResult.setMessage("other  error");
+				}
+			} else {
 				jsonResult.setStatus(false);
-				jsonResult.setMessage("other  error");
+				jsonResult.setMessage("loginName  is  existed");
 			}
-		} else {
-			jsonResult.setStatus(false);
-			jsonResult.setMessage("loginName  is  existed");
-		}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

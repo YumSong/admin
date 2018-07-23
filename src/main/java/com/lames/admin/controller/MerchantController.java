@@ -87,7 +87,7 @@ public class MerchantController {
 		if(err1.size()>0) {	
 			jsonResult = new JsonResult();
 			jsonResult.setStatus(false);
-			jsonResult.setMessage(err1.toString());;
+			jsonResult.setMessage(err1.toString());
 		}else {
 			jsonResult = merchantService.registerMerchant(loginName, loginPassword);
 		}
@@ -96,7 +96,6 @@ public class MerchantController {
 		try {
 			jsonStr = mapper.writeValueAsString(jsonResult);
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		response.getWriter().write(jsonStr);

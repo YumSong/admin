@@ -28,6 +28,12 @@ public class MerchantDetailDAOorm implements IMerchantDetailDAOorm {
 		Criteria criteria = new Criteria();
 		criteria.put("MERCHANT_ID=",merchantID);
 		merchantDetail=sqlSession.find(merchantDetail,criteria);
+		if(merchantDetail != null) {
+			String pics =merchantDetail.getShopPics();
+			if(!"".equals(pics)&&pics!=null) {
+				merchantDetail.setShopPic(pics.split(";;"));
+			}
+		}
 		sqlSession.close();
 		return merchantDetail;
 
@@ -155,7 +161,7 @@ public class MerchantDetailDAOorm implements IMerchantDetailDAOorm {
 		// TODO Auto-generated method stub
 		factory.setDataSource(DBormUtil.getBasicDataSource());
 		SqlSession sqlSession = factory.createSqlSession();	
-		String[] str = detail.getShopPic();
+		/*String[] str = detail.getShopPic();
 		String pics ="";
 		if(str!=null) {
 			for(String s:str) {
@@ -163,7 +169,7 @@ public class MerchantDetailDAOorm implements IMerchantDetailDAOorm {
 			}
 		}
 		detail.setShopPics(pics);
-		System.out.println(pics);
+		System.out.println(pics);*/
 		detail.setShopPic(null);
 		int i = sqlSession.update(detail);
 		sqlSession.close();

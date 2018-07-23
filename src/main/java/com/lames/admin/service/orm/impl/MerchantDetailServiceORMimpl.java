@@ -172,6 +172,7 @@ public class MerchantDetailServiceORMimpl implements IMerchantDetailService {
 					merchantDetailDAOorm.updateByID(merchantDetail);
 				}
 			} else {
+				merchantDetail.setStatus(MerchantDetailStatus.UNTREATED);
 				merchantDetailDAOorm.insert(merchantDetail);
 			}
 			return merchantDetail;

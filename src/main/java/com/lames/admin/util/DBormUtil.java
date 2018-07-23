@@ -27,7 +27,7 @@ public class DBormUtil {
 		ds.setUrl(properties.getProperty("jdbc.url"));
 		ds.setUsername(properties.getProperty("jdbc.user"));
 		ds.setPassword(properties.getProperty("jdbc.password"));
-		
+		System.out.println(properties.getProperty("jdbc.url"));
 		ds.setInitialSize(20); // 初始连接数量
 		ds.setMinIdle(3); //最少保持几条空闲的连接
 		ds.setMaxTotal(1000); //最大连接数量
