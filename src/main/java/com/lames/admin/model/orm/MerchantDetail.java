@@ -20,7 +20,7 @@ public class MerchantDetail {
     @Column("merchant_id")
 	private Integer merchantID;
     @Column("idcard_num")    
-	private Integer idcardNum;
+	private String idcardNum;
     @Column("idcard_pic")
 	private String idcardPic;
     @Column("merchant_name")	
@@ -57,11 +57,11 @@ public class MerchantDetail {
 		this.merchantID = merchantID;
 	}
 
-	public Integer getIdcardNum() {
+	public String getIdcardNum() {
 		return idcardNum;
 	}
 
-	public void setIdcardNum(Integer idcardNum) {
+	public void setIdcardNum(String idcardNum) {
 		this.idcardNum = idcardNum;
 	}
 

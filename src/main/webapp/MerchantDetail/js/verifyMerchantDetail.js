@@ -8,14 +8,21 @@
 		
 		let merchantDetails;
 		let currNum =1;
-		let pageUtil ="";
+		let pageLength =5;
 
+		setPageLength = function(newLength){
+			pageLength =newLength;
+			getData(currNum);
+		}
+		
+		
+		
 		getData = function(currNum){
 			
 		    $.ajax({
                 type:"POST",
-                url:"http://10.222.29.152:9999/admin/MerchantDetail/ListVerify.do",
-                data:"pageNum="+currNum,
+                url:"http://localhost:9999/admin/MerchantDetail/ListVerify.do",
+                data:"pageNum="+currNum+"&pageLength="+pageLength,
                 success:function(data){
                 let result = JSON.parse(data);
                 merchantDetails = result.data.list;
@@ -58,7 +65,7 @@
 			let time = lastUpdateTime;			
 			    $.ajax({
 	                type:"POST",
-	                url:"http://10.222.29.152:9999/admin/MerchantDetail/UpdateStatus.do",
+	                url:"http://localhost:9999/admin/MerchantDetail/UpdateStatus.do",
 	                data:"merchantDetailID="+id+"&status="+tStatus+"&lastUpdateTime="+time,
 	                success:function(data){
 	                let result = JSON.parse(data);

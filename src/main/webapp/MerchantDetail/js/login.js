@@ -30,7 +30,7 @@
 		
             $.ajax({
                 type:"POST",
-                url:"http://10.222.29.152:9999/admin/Login.do",
+                url:"http://localhost:9999/admin/Login.do",
                 data:"loginName="+loginName+"&loginPassword="+loginPassword,
                 success:function(data){
                 let result = JSON.parse(data);
@@ -45,7 +45,7 @@
                 	let time =JSON.stringify(oldtime);
                 	localStorage.setItem("currTime",time);
                 	localStorage.setItem("result",data);
-                    window.location.href="http://10.222.29.152:9999/admin/MerchantDetail/ListToUpdate.html";
+                    window.location.href="http://localhost:9999/admin/MerchantDetail/ListToUpdate.html";
                 }
                 console.log(data);
                 

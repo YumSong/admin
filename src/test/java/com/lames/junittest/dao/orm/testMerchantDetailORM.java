@@ -40,14 +40,13 @@ public class testMerchantDetailORM {
 		String str = "https://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/logo-zhidao.gif;;https://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/logo-zhidao.gif";
 		m.setAddress("Address test2");
 		m.setBusinessPic("https://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/logo-zhidao.gif");
-		m.setIdcardNum(11122);
+		m.setIdcardNum("123456789");
 		m.setIdcardPic("https://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/logo-zhidao.gif");
 		m.setMerchantID(0);
-		m.setMerchantName("junit name2");
+		m.setMerchantName("junit name 33");
 		m.setShopID(3);
 		m.setShopPic(str.split(";;"));
 		m.setStatus(0);
-		m.setLastUpdateTime(lastUpdateTime);
 		m.setIntroduction("introductionssss");
 		int i =dao.insert(m);
 		System.out.println(i);
@@ -66,6 +65,9 @@ public class testMerchantDetailORM {
 	public void testupdateStatusByID() throws SQLException {
 		int i =dao.updateStatusByID(81,MerchantDetailStatus.PASSED);
 		System.out.println(i);
+		MerchantDetail merchantDetail = dao.fingByID(81);
+		System.out.println(merchantDetail.getShopPics());
+		System.out.println(merchantDetail.getShopPic());
 		assertEquals(1,i);
 	}
 	
@@ -73,7 +75,7 @@ public class testMerchantDetailORM {
 	public void testupdateByID() throws SQLException {
 		MerchantDetail detail ;
 		detail=dao.fingByID(81);
-		detail.setMerchantName("I have modified the name 3");
+		detail.setMerchantName("I have modified the name 4");
 		System.out.println(detail.toString());
 		int i =dao.updateByID(detail);
 		System.out.println(i);
@@ -88,6 +90,7 @@ public class testMerchantDetailORM {
 		System.out.println(pUtil.getTotal());
 		System.out.println(list.size());
 		for(MerchantDetail m:list) {
+			if(m.getShopPic()!=null)
 			for(String s:m.getShopPic()) {
 				System.out.println(s);
 			}

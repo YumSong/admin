@@ -24,15 +24,19 @@ public class MerchantDetailController {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String pageNum = null;
+		String pageLength=null;
 		PageUtil pUtil = new PageUtil();
 		pageNum = request.getParameter("pageNum");
-
+		pageLength = request.getParameter("pageLength");
 		if (pageNum == null) {
-			System.out.println(pageNum);
 			pUtil.setPageNum(1);
 		} else {
-			System.out.println(pageNum);
 			pUtil.setPageNum(Integer.valueOf(pageNum));
+		}
+		if (pageLength == null) {
+			pUtil.setLength(3);//分页默认三个分一页
+		} else {
+			pUtil.setLength(Integer.valueOf(pageLength));
 		}
 		String jsonStr= merchantDetailService.listToUpdateStatus(pUtil);
 		response.setHeader("Access-Control-Allow-Origin", "*");
@@ -45,12 +49,19 @@ public class MerchantDetailController {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String pageNum = null;
+		String pageLength=null;	
 		PageUtil pUtil = new PageUtil();
 		pageNum = request.getParameter("pageNum");
+		pageLength = request.getParameter("pageLength");
 		if (pageNum == null) {
 			pUtil.setPageNum(1);
 		} else {
 			pUtil.setPageNum(Integer.valueOf(pageNum));
+		}
+		if (pageLength == null) {
+			pUtil.setLength(3);//分页默认三个分一页
+		} else {
+			pUtil.setLength(Integer.valueOf(pageLength));
 		}
 		String jsonStr = merchantDetailService.listToVerify(pUtil);;
 		response.setHeader("Access-Control-Allow-Origin", "*");
@@ -61,7 +72,7 @@ public class MerchantDetailController {
 	public void updateStatus(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		Long lastUpdateTime=null;
 		String status1 = request.getParameter("status");
 		String merchantDetailID1 = request.getParameter("merchantDetailID");
 		String lastUpdateTime1 = request.getParameter("lastUpdateTime");
@@ -71,11 +82,14 @@ public class MerchantDetailController {
 		if (status1 != null && merchantDetailID1 != null) {
 			Integer merchantDetailID = Integer.valueOf(merchantDetailID1);
 			Integer status = Integer.valueOf(status1);
-			Long  lastUpdateTime = Long.valueOf(lastUpdateTime1);
+			if(lastUpdateTime1!=null&&!"null".equals(lastUpdateTime1)) {
+			   lastUpdateTime = Long.valueOf(lastUpdateTime1);
+			}
 			MerchantDetail merchantDetail = new MerchantDetail();
 			merchantDetail.setMerchantDetailID(merchantDetailID);
 			merchantDetail.setLastUpdateTime(lastUpdateTime);
 			String jsonStr=merchantDetailService.updateMerchantDetailStatus(merchantDetail, status);
+			response.setHeader("Access-Control-Allow-Origin", "*");
 			response.getWriter().write(jsonStr);
 		}
 	}

@@ -2,6 +2,7 @@ package com.lames.admin.dao.orm.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.util.BeanUtil;
@@ -37,6 +38,8 @@ public class MerchantDetailDAOorm implements IMerchantDetailDAOorm {
 		// TODO Auto-generated method stub
 		factory.setDataSource(DBormUtil.getBasicDataSource());
 		SqlSession sqlSession = factory.createSqlSession();	
+		Long lastUpdateTime = new Date().getTime();
+		m.setLastUpdateTime(lastUpdateTime );
 		String[] str = m.getShopPic();
 		String pics ="";
 		if(str!=null) {
@@ -145,6 +148,8 @@ public class MerchantDetailDAOorm implements IMerchantDetailDAOorm {
 		MerchantDetail merchantDetail = new MerchantDetail();
 		merchantDetail.setMerchantDetailID(merchantDetailID);
 		merchantDetail.setStatus(Status);
+		Long lastUpdateTime = new Date().getTime();
+		merchantDetail.setLastUpdateTime(lastUpdateTime);
 		int i = sqlSession.update(merchantDetail);
 		sqlSession.close();
 		return i;
@@ -153,18 +158,13 @@ public class MerchantDetailDAOorm implements IMerchantDetailDAOorm {
 
 	public int updateByID(MerchantDetail detail) throws SQLException {
 		// TODO Auto-generated method stub
+		System.out.println("updateByID:" + detail);
 		factory.setDataSource(DBormUtil.getBasicDataSource());
 		SqlSession sqlSession = factory.createSqlSession();	
-		String[] str = detail.getShopPic();
-		String pics ="";
-		if(str!=null) {
-			for(String s:str) {
-				pics=pics+s+";;";
-			}
-		}
-		detail.setShopPics(pics);
-		System.out.println(pics);
-		detail.setShopPic(null);
+		MerchantDetail merchantDetail = new MerchantDetail();
+		merchantDetail.setMerchantDetailID(detail.getMerchantDetailID());
+		merchantDetail.setStatus(detail.getStatus());
+		merchantDetail.setLastUpdateTime(detail.getLastUpdateTime());
 		int i = sqlSession.update(detail);
 		sqlSession.close();
 		return i;
