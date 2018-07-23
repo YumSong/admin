@@ -191,10 +191,8 @@ public class MerchantDetailServiceORMimpl implements IMerchantDetailService {
 			System.out.println("latest:"+newMerchantDetail.getLastUpdateTime());
 			System.out.println("old   :"+merchantDetail.getLastUpdateTime());
 			if (newMerchantDetail.getLastUpdateTime().equals(merchantDetail.getLastUpdateTime())) {
-				java.util.Date curDate = new java.util.Date();
-				Long lastUpdateTime = curDate.getTime();
-				merchantDetail.setLastUpdateTime(lastUpdateTime);
-				if (merchantDetailDAOorm.updateByID(merchantDetail) > 0) {
+			
+				if (merchantDetailDAOorm.updateStatusByID(merchantDetail.getMerchantDetailID(), merchantDetail.getStatus()) > 0) {
 					jsonResult.setStatus(true);
 					return jsonResult;
 				} else {

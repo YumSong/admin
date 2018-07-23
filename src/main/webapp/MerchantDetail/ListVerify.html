@@ -335,7 +335,7 @@
 					&times;
 				</button>
 				<h1 class="modal-title" style="color:red" >
-					警告
+					Warning
 				</h1>
 				</div>
 				<div class="modal-body" id="message">
@@ -369,6 +369,14 @@
 		<!-- Card Footer -->
 		<div class="pmd-card-footer">
 		  <ul class="pmd-pagination pull-right list-inline">
+		  	<span>Rows per page:</span> <span class="dropdown pmd-dropdown">
+			  <button class="btn pmd-ripple-effect pmd-btn-flat btn-link dropdown-toggle" type="button" id="dropdownMenuDivider" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+			  <ul aria-labelledby="dropdownMenuDivider" role="menu" class="dropdown-menu">
+				  <li role="presentation"><a href="javascript:setPageLength(3);" tabindex="-1" role="menuitem">3</a></li>
+				  <li role="presentation"><a href="javascript:setPageLength(5);" tabindex="-1" role="menuitem">5</a></li>
+				  <li role="presentation"><a href="javascript:setPageLength(10);" tabindex="-1" role="menuitem">10</a></li>
+			  </ul>
+			  </span> 
 			  <span class="dropdown pmd-dropdown">
 			  </span>
 			  <a href="javascript:getPage('-1');" aria-label="Previous"><i class="material-icons md-dark pmd-sm">keyboard_arrow_left</i></a>

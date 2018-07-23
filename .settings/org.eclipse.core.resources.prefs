@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/lames/admin/constant/MerchantDetailStatus.java=UTF-8
+encoding//src/main/java/com/lames/admin/controller/MerchantDetailController.java=UTF-8
 encoding//src/main/java/com/lames/admin/model/orm/MerchantDetail.java=UTF-8
+encoding//src/main/java/com/lames/admin/service/orm/impl/MerchantDetailServiceORMimpl.java=UTF-8
 encoding//src/test/java/com/lames/junittest/dao/orm/testMerchantDetailORM.java=UTF-8
